@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "lib": ["ES2023"],
     "module": "commonjs",
+    "target": "ES2022",
     "strict": true,
     "esModuleInterop": true,
     "rootDir": "src",
     "outDir": "build",
     "baseUrl": "./",
-    "lib": ["ES2015", "DOM"],
     "paths": {
       "*": ["src/typings/*"]
     }

@@ -1,5 +1,9 @@
-node_modules
-.env
-credentials.json
-dist
-build
+# -----------------------
+# .prettierignore is a symbolic link to .gitignore
+# do not create .gitignore files in subdirectories if you want its entries to be ignored by Prettier
+# -----------------------
+/dist/
+/build/
+/node_modules/
+/.env
+/credentials.json
