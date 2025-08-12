@@ -24,7 +24,7 @@ type IChainMap = Record<string, IChainConfig>;
 const sendAlert = async (
   text: any,
   { name, address, balance, network, slackHook }: IWalletAlertConfig,
-  chains: IChainMap
+  chains: IChainMap,
 ) => {
   const baseUrl = chains[network.toLowerCase()].explorerUrl;
   const currency = chains[network.toLowerCase()].currency;
@@ -57,13 +57,13 @@ const sendAlert = async (
 };
 
 const getClient = (baseURL: string, apiKey?: string) => {
-  return axios.create({ baseURL, params: { apiKey } });
+  return axios.create({ baseURL, params: { apikey: apiKey } });
 };
 
 export const getAlertLevel = (
   balance: number,
   previousBalance: number | undefined,
-  { threshold, delta }: { threshold: number; delta: number }
+  { threshold, delta }: { threshold: number; delta: number },
 ): "error" | "ok" | "skip" => {
   if (balance > threshold) {
     return "ok";
@@ -113,13 +113,13 @@ const processWallet = async (wallet: IWalletAlertConfig, chains: IChainMap) => {
           address,
           ...api.defaults.params,
         },
-      }
+      },
     );
     data = response.data;
   } catch (e) {
     console.error(
       `Error fetching wallet ${wallet.name} (${address}) on ${network}:`,
-      e
+      e,
     );
     throw e;
   }
@@ -139,13 +139,13 @@ const processWallet = async (wallet: IWalletAlertConfig, chains: IChainMap) => {
   });
   if (alertLevel === "skip") {
     console.warn(
-      `low balance on wallet ${name} (${address}): ${result.balance}. Skipping alert and balance update.`
+      `low balance on wallet ${name} (${address}): ${result.balance}. Skipping alert and balance update.`,
     );
     return null;
   }
   if (alertLevel === "error") {
     console.warn(
-      `low balance on wallet ${name} (${address}): ${result.balance}.`
+      `low balance on wallet ${name} (${address}): ${result.balance}.`,
     );
     sendAlert(`:alert: Low balance on wallet ${name}`, result, chains);
   } else {
@@ -161,7 +161,7 @@ export const main = async () => {
   const chainData = await chainsSheet.getData();
   const chains = chainData.reduce(
     (acc, curr) => ({ ...acc, [curr.name]: curr }),
-    {} as IChainMap
+    {} as IChainMap,
   );
 
   for (const wallet of wallets) {
