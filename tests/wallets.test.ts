@@ -1,4 +1,6 @@
-import { getAlertLevel } from "../src";
+import { describe, it } from "@std/testing/bdd";
+import { expect } from "@std/expect";
+import { getAlertLevel } from "../src/services/wallets.ts";
 
 const config = {
   threshold: 20,

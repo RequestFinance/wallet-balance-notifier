@@ -1,11 +1,19 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
+  - package-ecosystem: "deno"
     directory: "/"
     schedule:
       interval: "daily"
     # Disable version updates for npm dependencies
     open-pull-requests-limit: 0
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+    ignore:
+      - dependency-name: "distroless/cc"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
