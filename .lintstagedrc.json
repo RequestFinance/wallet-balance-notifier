@@ -1,0 +1,10 @@
+{
+  "*.{js,ts}": [
+    "deno fmt",
+    "deno lint",
+    "deno check"
+  ],
+  "!(*.{js,ts,env,lock})": [
+    "deno fmt"
+  ]
+}

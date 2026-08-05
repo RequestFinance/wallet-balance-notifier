@@ -1,6 +1,7 @@
 # Ethereum Wallet Balance notifier
 
-Small utility to receive slack alerts when a given EVM wallet balance is low (under given threshold).
+Small utility to receive slack alerts when a given EVM wallet balance is low
+(under given threshold).
 
 ## How to use
 
@@ -28,10 +29,16 @@ Small utility to receive slack alerts when a given EVM wallet balance is low (un
 | `currency`    | The chain main currency, used in the Slack notification                            |
 
 4. Fill some data
-5. Get the spreadsheet ID (available in URL after https://docs.google.com/spreadsheets/d/)
+5. Get the spreadsheet ID (available in URL after
+   https://docs.google.com/spreadsheets/d/)
 6. Run the code
 
 ```sh
 pnpm install
 SPREADSHEET_ID=[your spreadhsheet id] ETHERSCAN_API_KEY_[NETWORK]=[your Etherscan API key] node index.js
 ```
+
+## Contributing
+
+Run `deno task hook install` once to install Git hooks that automate linting and
+formatting on commit.
