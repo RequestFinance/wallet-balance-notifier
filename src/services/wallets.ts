@@ -114,7 +114,7 @@ const processWallet = async (wallet: IWalletAlertConfig, chains: IChainMap) => {
     data = await response.json();
   } catch (e) {
     console.error(
-      `Error fetching wallet ${wallet.name} (${address}) on ${network}:`,
+      `Error fetching wallet ${name} (${address}) on ${network}:`,
       e,
     );
     throw e;
@@ -123,7 +123,7 @@ const processWallet = async (wallet: IWalletAlertConfig, chains: IChainMap) => {
   if (data.status === "0") {
     if (/rate limit/i.test(data.result)) {
       console.warn(
-        `Etherscan rate limit hit for wallet ${wallet.name} (${address}) on ${network}, skipping:`,
+        `Etherscan rate limit hit for wallet ${name} (${address}) on ${network}, skipping:`,
         data.result,
       );
       return null;
@@ -142,17 +142,19 @@ const processWallet = async (wallet: IWalletAlertConfig, chains: IChainMap) => {
   });
   if (alertLevel === "skip") {
     console.warn(
-      `low balance on wallet ${name} (${address}): ${result.balance}. Skipping alert and balance update.`,
+      `low balance on wallet ${name} (${address}) on ${network}: ${result.balance}. Skipping alert and balance update.`,
     );
     return null;
   }
   if (alertLevel === "error") {
     console.warn(
-      `low balance on wallet ${name} (${address}): ${result.balance}.`,
+      `low balance on wallet ${name} (${address}) on ${network}: ${result.balance}.`,
     );
     sendAlert(`:alert: Low balance on wallet ${name}`, result, chains);
   } else {
-    console.log(`balance on wallet ${name} (${address}): ${newBalance}`);
+    console.log(
+      `balance on wallet ${name} (${address}) on ${network}: ${newBalance}`,
+    );
   }
   return result;
 };
@@ -170,7 +172,9 @@ export const run = async () => {
   for (const wallet of wallets) {
     const result = await processWallet(wallet, chains);
     if (result) {
-      console.log(`updating ${result.name} to ${result.balance}`);
+      console.log(
+        `updating wallet balance for ${result.name} (${result.address}) on ${result.network} to ${result.balance}`,
+      );
       await sheet.update(wallet._row, "balance", result.balance);
     }
   }
