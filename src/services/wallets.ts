@@ -169,6 +169,7 @@ export const run = async () => {
     {} as IChainMap,
   );
 
+  let balanceUpdated = false;
   for (const wallet of wallets) {
     const result = await processWallet(wallet, chains);
     if (result) {
@@ -176,11 +177,12 @@ export const run = async () => {
         `updating wallet balance for ${result.name} (${result.address}) on ${result.network} to ${result.balance}`,
       );
       await sheet.update(wallet._row, "balance", result.balance);
+      balanceUpdated = true;
     }
   }
 
   const healthcheckUrl = config.healthcheckUrl;
-  if (healthcheckUrl) {
+  if (healthcheckUrl && balanceUpdated) {
     await fetch(healthcheckUrl, { method: "POST" });
   }
 };
