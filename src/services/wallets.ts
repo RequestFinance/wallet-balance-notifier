@@ -121,6 +121,13 @@ const processWallet = async (wallet: IWalletAlertConfig, chains: IChainMap) => {
   }
 
   if (data.status === "0") {
+    if (/rate limit/i.test(data.result)) {
+      console.warn(
+        `Etherscan rate limit hit for wallet ${wallet.name} (${address}) on ${network}, skipping:`,
+        data.result,
+      );
+      return null;
+    }
     throw new Error(data.result);
   }
 
