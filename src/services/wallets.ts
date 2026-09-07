@@ -101,7 +101,7 @@ const processWallet = async (wallet: IWalletAlertConfig, chains: IChainMap) => {
     console.warn("unknown network!", network);
     return;
   }
-  const url = new URL("https://api.etherscan.io/v2/api");
+  const url = new URL(config.etherscanApiUrl);
   url.searchParams.set("chainId", String(chains[network].chainId));
   url.searchParams.set("module", "account");
   url.searchParams.set("action", "balance");
