@@ -102,7 +102,7 @@ const processWallet = async (wallet: IWalletAlertConfig, chains: IChainMap) => {
     return;
   }
   const url = new URL(config.etherscanApiUrl);
-  url.searchParams.set("chainId", String(chains[network].chainId));
+  url.searchParams.set("chainid", String(chains[network].chainId));
   url.searchParams.set("module", "account");
   url.searchParams.set("action", "balance");
   url.searchParams.set("address", address);
@@ -134,7 +134,9 @@ const processWallet = async (wallet: IWalletAlertConfig, chains: IChainMap) => {
   if (typeof data.result !== "string") {
     throw new Error(
       `Unexpected Etherscan response for wallet ${name} (${address}) on ${network}: ${
-        JSON.stringify(data)
+        JSON.stringify(
+          data,
+        )
       }`,
     );
   }
