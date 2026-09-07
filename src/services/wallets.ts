@@ -133,9 +133,11 @@ const processWallet = async (wallet: IWalletAlertConfig, chains: IChainMap) => {
 
   if (typeof data.result !== "string") {
     throw new Error(
-      `Unexpected Etherscan response for wallet ${name} (${address}) on ${network}: ${JSON.stringify(
-        data,
-      )}`,
+      `Unexpected Etherscan response for wallet ${name} (${address}) on ${network}: ${
+        JSON.stringify(
+          data,
+        )
+      }`,
     );
   }
 
