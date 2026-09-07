@@ -131,6 +131,12 @@ const processWallet = async (wallet: IWalletAlertConfig, chains: IChainMap) => {
     throw new Error(data.result);
   }
 
+  if (typeof data.result !== "string") {
+    throw new Error(
+      `Unexpected Etherscan response for wallet ${name} (${address}) on ${network}: ${JSON.stringify(data)}`,
+    );
+  }
+
   const newBalance = fromWei(data.result);
   const result = {
     ...wallet,
