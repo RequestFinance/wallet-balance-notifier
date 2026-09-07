@@ -13,6 +13,9 @@ export const config = {
   get port() {
     return getRequired("PORT").asPortNumber();
   },
+  get etherscanApiUrl() {
+    return getRequired("ETHERSCAN_API_URL").asString();
+  },
   get etherscanApiKey() {
     return getRequired("ETHERSCAN_API_KEY").asString();
   },
