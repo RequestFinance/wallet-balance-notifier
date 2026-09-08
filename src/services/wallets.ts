@@ -108,16 +108,23 @@ const processWallet = async (wallet: IWalletAlertConfig, chains: IChainMap) => {
   url.searchParams.set("address", address);
   url.searchParams.set("apikey", config.etherscanApiKey);
 
+  let response;
+  try {
+    response = await fetch(url.toString());
+  } catch (e) {
+    console.error(`Error fetching wallet ${name} (${address}) on ${network}`);
+    throw e;
+  }
+
   let data;
   try {
-    const response = await fetch(url.toString());
     data = await response.json();
   } catch (e) {
-    console.error(
-      `Error fetching wallet ${name} (${address}) on ${network}:`,
+    console.warn(
+      `Non-JSON Etherscan response for wallet ${name} (${address}) on ${network}, skipping:`,
       e,
     );
-    throw e;
+    return null;
   }
 
   if (data.status === "0") {
