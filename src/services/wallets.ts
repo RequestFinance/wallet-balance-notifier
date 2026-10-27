@@ -27,6 +27,13 @@ const sendAlert = async (
   { name, address, balance, network, slackHook }: IWalletAlertConfig,
   chains: IChainMap,
 ) => {
+  if (!slackHook?.trim()) {
+    console.warn(
+      `no slack hook for wallet ${name} (${address}), skipping alert`,
+    );
+    return;
+  }
+
   const baseUrl = chains[network.toLowerCase()].explorerUrl;
   const currency = chains[network.toLowerCase()].currency;
 
